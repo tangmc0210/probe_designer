@@ -1,4 +1,4 @@
-# Probe_designer
+# probe_designer
 
 ## Brief introduction
 This program is intended to design padlock probe for spatial transcriptome. When input with gene list you are interested in, the program will search for the corresponding mRNA sequence for the gene and, with some strategy, search for binding sites of specific length you assign.
