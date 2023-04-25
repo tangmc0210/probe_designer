@@ -29,3 +29,8 @@ By the gene name list given, from
 
 ### Export *not-found* gene file for next round search
 Considering the error occurred in the id or sequencing searching, sift out in selection, the files of each step are saved as tmp file in "results/time" folder.
+
+### Merge the results got from above
+run *merge.ipynb* to merge results got above and return a xlsx file of wanted binding sites for each gene.
+
+## Perspective and plans
