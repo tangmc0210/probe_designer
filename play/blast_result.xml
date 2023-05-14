@@ -1,0 +1,379 @@
+<?xml version="1.0"?>
+<!DOCTYPE BlastOutput PUBLIC "-//NCBI//NCBI BlastOutput/EN" "http://www.ncbi.nlm.nih.gov/dtd/NCBI_BlastOutput.dtd">
+<BlastOutput>
+  <BlastOutput_program>blastn</BlastOutput_program>
+  <BlastOutput_version>BLASTN 2.14.0+</BlastOutput_version>
+  <BlastOutput_reference>Zheng Zhang, Scott Schwartz, Lukas Wagner, and Webb Miller (2000), &quot;A greedy algorithm for aligning DNA sequences&quot;, J Comput Biol 2000; 7(1-2):203-14.</BlastOutput_reference>
+  <BlastOutput_db>refseq_rna</BlastOutput_db>
+  <BlastOutput_query-ID>Query_1</BlastOutput_query-ID>
+  <BlastOutput_query-def>DQ832272.1 Gallus gallus breed Sanhuang CD4 (CD4) mRNA, partial cds</BlastOutput_query-def>
+  <BlastOutput_query-len>210</BlastOutput_query-len>
+  <BlastOutput_param>
+    <Parameters>
+      <Parameters_expect>10</Parameters_expect>
+      <Parameters_sc-match>1</Parameters_sc-match>
+      <Parameters_sc-mismatch>-2</Parameters_sc-mismatch>
+      <Parameters_gap-open>0</Parameters_gap-open>
+      <Parameters_gap-extend>0</Parameters_gap-extend>
+      <Parameters_filter>L;m;</Parameters_filter>
+    </Parameters>
+  </BlastOutput_param>
+<BlastOutput_iterations>
+<Iteration>
+  <Iteration_iter-num>1</Iteration_iter-num>
+  <Iteration_query-ID>Query_1</Iteration_query-ID>
+  <Iteration_query-def>DQ832272.1 Gallus gallus breed Sanhuang CD4 (CD4) mRNA, partial cds</Iteration_query-def>
+  <Iteration_query-len>210</Iteration_query-len>
+<Iteration_hits>
+<Hit>
+  <Hit_num>1</Hit_num>
+  <Hit_id>gi|2201705362|ref|XM_046906553.1|</Hit_id>
+  <Hit_def>PREDICTED: Gallus gallus CD4 molecule (CD4), transcript variant X1, mRNA</Hit_def>
+  <Hit_accession>XM_046906553</Hit_accession>
+  <Hit_len>3710</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>388.917</Hsp_bit-score>
+      <Hsp_score>210</Hsp_score>
+      <Hsp_evalue>2.12154e-104</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>210</Hsp_query-to>
+      <Hsp_hit-from>1962</Hsp_hit-from>
+      <Hsp_hit-to>2171</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>210</Hsp_identity>
+      <Hsp_positive>210</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>210</Hsp_align-len>
+      <Hsp_qseq>CAAGAACAACAGATTGGGATTGCAGGAAAGGAGGTGATCCTGAGCTGCAAAGCCATAAATAATCAGAAAGATGGGACCTGTACTTGGAAGTACAAGTATAAAGAAGTTTCTTCTACTATTATAAGCTTTTCTAAAGCACAGGTTTTTAAAGGCAAAGCTCCAATGACTCATCGATCTGAATTGAACTCGAACAGCAAAAAGCTGAAGGTG</Hsp_qseq>
+      <Hsp_hseq>CAAGAACAACAGATTGGGATTGCAGGAAAGGAGGTGATCCTGAGCTGCAAAGCCATAAATAATCAGAAAGATGGGACCTGTACTTGGAAGTACAAGTATAAAGAAGTTTCTTCTACTATTATAAGCTTTTCTAAAGCACAGGTTTTTAAAGGCAAAGCTCCAATGACTCATCGATCTGAATTGAACTCGAACAGCAAAAAGCTGAAGGTG</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>2</Hit_num>
+  <Hit_id>gi|2201562090|ref|XM_015293164.4|</Hit_id>
+  <Hit_def>PREDICTED: Gallus gallus CD4 molecule (CD4), transcript variant X1, mRNA</Hit_def>
+  <Hit_accession>XM_015293164</Hit_accession>
+  <Hit_len>3710</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>388.917</Hsp_bit-score>
+      <Hsp_score>210</Hsp_score>
+      <Hsp_evalue>2.12154e-104</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>210</Hsp_query-to>
+      <Hsp_hit-from>1962</Hsp_hit-from>
+      <Hsp_hit-to>2171</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>210</Hsp_identity>
+      <Hsp_positive>210</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>210</Hsp_align-len>
+      <Hsp_qseq>CAAGAACAACAGATTGGGATTGCAGGAAAGGAGGTGATCCTGAGCTGCAAAGCCATAAATAATCAGAAAGATGGGACCTGTACTTGGAAGTACAAGTATAAAGAAGTTTCTTCTACTATTATAAGCTTTTCTAAAGCACAGGTTTTTAAAGGCAAAGCTCCAATGACTCATCGATCTGAATTGAACTCGAACAGCAAAAAGCTGAAGGTG</Hsp_qseq>
+      <Hsp_hseq>CAAGAACAACAGATTGGGATTGCAGGAAAGGAGGTGATCCTGAGCTGCAAAGCCATAAATAATCAGAAAGATGGGACCTGTACTTGGAAGTACAAGTATAAAGAAGTTTCTTCTACTATTATAAGCTTTTCTAAAGCACAGGTTTTTAAAGGCAAAGCTCCAATGACTCATCGATCTGAATTGAACTCGAACAGCAAAAAGCTGAAGGTG</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>3</Hit_num>
+  <Hit_id>gi|2099381002|ref|NM_204649.2|</Hit_id>
+  <Hit_def>Gallus gallus CD4 molecule (CD4), mRNA</Hit_def>
+  <Hit_accession>NM_204649</Hit_accession>
+  <Hit_len>2032</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>388.917</Hsp_bit-score>
+      <Hsp_score>210</Hsp_score>
+      <Hsp_evalue>2.12154e-104</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>210</Hsp_query-to>
+      <Hsp_hit-from>284</Hsp_hit-from>
+      <Hsp_hit-to>493</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>210</Hsp_identity>
+      <Hsp_positive>210</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>210</Hsp_align-len>
+      <Hsp_qseq>CAAGAACAACAGATTGGGATTGCAGGAAAGGAGGTGATCCTGAGCTGCAAAGCCATAAATAATCAGAAAGATGGGACCTGTACTTGGAAGTACAAGTATAAAGAAGTTTCTTCTACTATTATAAGCTTTTCTAAAGCACAGGTTTTTAAAGGCAAAGCTCCAATGACTCATCGATCTGAATTGAACTCGAACAGCAAAAAGCTGAAGGTG</Hsp_qseq>
+      <Hsp_hseq>CAAGAACAACAGATTGGGATTGCAGGAAAGGAGGTGATCCTGAGCTGCAAAGCCATAAATAATCAGAAAGATGGGACCTGTACTTGGAAGTACAAGTATAAAGAAGTTTCTTCTACTATTATAAGCTTTTCTAAAGCACAGGTTTTTAAAGGCAAAGCTCCAATGACTCATCGATCTGAATTGAACTCGAACAGCAAAAAGCTGAAGGTG</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>4</Hit_num>
+  <Hit_id>gi|1810698873|ref|XM_015872856.2|</Hit_id>
+  <Hit_def>PREDICTED: Coturnix japonica T-cell surface glycoprotein CD4-like (LOC107318700), mRNA</Hit_def>
+  <Hit_accession>XM_015872856</Hit_accession>
+  <Hit_len>2369</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>283.658</Hsp_bit-score>
+      <Hsp_score>153</Hsp_score>
+      <Hsp_evalue>1.02986e-72</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>210</Hsp_query-to>
+      <Hsp_hit-from>637</Hsp_hit-from>
+      <Hsp_hit-to>846</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>191</Hsp_identity>
+      <Hsp_positive>191</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>210</Hsp_align-len>
+      <Hsp_qseq>CAAGAACAACAGATTGGGATTGCAGGAAAGGAGGTGATCCTGAGCTGCAAAGCCATAAATAATCAGAAAGATGGGACCTGTACTTGGAAGTACAAGTATAAAGAAGTTTCTTCTACTATTATAAGCTTTTCTAAAGCACAGGTTTTTAAAGGCAAAGCTCCAATGACTCATCGATCTGAATTGAACTCGAACAGCAAAAAGCTGAAGGTG</Hsp_qseq>
+      <Hsp_hseq>CAAGAACAACAGACTGGAGTTGCAGGAAAGGAGGTGATCCTGAGCTGTAAAGGCATAAATCATCACAAAGATGTGACCTGTACTTGGAAGTACAAGTATAAAGAAGTTTCTTCTACTATTATAAGCTTTTCTAGAACACGGATTCTTAAAGGCAAAGCTCCAATGACTCATCGATCGGAACTGATCTCGAACAGTGAACAGCTGAAGGTG</Hsp_hseq>
+      <Hsp_midline>||||||||||||| |||  |||||||||||||||||||||||||||| |||| ||||||| |||| ||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| | ||| | || ||||||||||||||||||||||||||||||| ||| ||| |||||||||  || |||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>5</Hit_num>
+  <Hit_id>gi|1201822352|ref|XM_021396071.1|</Hit_id>
+  <Hit_def>PREDICTED: Numida meleagris CD4 molecule (CD4), transcript variant X5, mRNA</Hit_def>
+  <Hit_accession>XM_021396071</Hit_accession>
+  <Hit_len>2250</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>270.731</Hsp_bit-score>
+      <Hsp_score>146</Hsp_score>
+      <Hsp_evalue>8.01781e-69</Hsp_evalue>
+      <Hsp_query-from>2</Hsp_query-from>
+      <Hsp_query-to>210</Hsp_query-to>
+      <Hsp_hit-from>513</Hsp_hit-from>
+      <Hsp_hit-to>721</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>188</Hsp_identity>
+      <Hsp_positive>188</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>209</Hsp_align-len>
+      <Hsp_qseq>AAGAACAACAGATTGGGATTGCAGGAAAGGAGGTGATCCTGAGCTGCAAAGCCATAAATAATCAGAAAGATGGGACCTGTACTTGGAAGTACAAGTATAAAGAAGTTTCTTCTACTATTATAAGCTTTTCTAAAGCACAGGTTTTTAAAGGCAAAGCTCCAATGACTCATCGATCTGAATTGAACTCGAACAGCAAAAAGCTGAAGGTG</Hsp_qseq>
+      <Hsp_hseq>AAGAACAACAGACTGGGGTTGCAGGAAAGGAGGTGATCCTGAGCTGTAAAGGCATAAATCATCACAAAGATGCGTTCTGTACTTGGAAGTACAAGTATAAAGAAGATTCTTATATTATTATGAGGTTTTCTAGAACACAGATTCTTAAAGGCAAAGCTCCAATGACTCATCGATCTGAATTGAACTTGAGCAGCAAACAGCTGAAGGTG</Hsp_hseq>
+      <Hsp_midline>|||||||||||| |||| |||||||||||||||||||||||||||| |||| ||||||| |||| ||||||| |  ||||||||||||||||||||||||||||| ||||| || |||||| || ||||||| | ||||| || |||||||||||||||||||||||||||||||||||||||||| || ||||||| |||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>6</Hit_num>
+  <Hit_id>gi|1201822350|ref|XM_021396063.1|</Hit_id>
+  <Hit_def>PREDICTED: Numida meleagris CD4 molecule (CD4), transcript variant X4, mRNA</Hit_def>
+  <Hit_accession>XM_021396063</Hit_accession>
+  <Hit_len>1982</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>270.731</Hsp_bit-score>
+      <Hsp_score>146</Hsp_score>
+      <Hsp_evalue>8.01781e-69</Hsp_evalue>
+      <Hsp_query-from>2</Hsp_query-from>
+      <Hsp_query-to>210</Hsp_query-to>
+      <Hsp_hit-from>252</Hsp_hit-from>
+      <Hsp_hit-to>460</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>188</Hsp_identity>
+      <Hsp_positive>188</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>209</Hsp_align-len>
+      <Hsp_qseq>AAGAACAACAGATTGGGATTGCAGGAAAGGAGGTGATCCTGAGCTGCAAAGCCATAAATAATCAGAAAGATGGGACCTGTACTTGGAAGTACAAGTATAAAGAAGTTTCTTCTACTATTATAAGCTTTTCTAAAGCACAGGTTTTTAAAGGCAAAGCTCCAATGACTCATCGATCTGAATTGAACTCGAACAGCAAAAAGCTGAAGGTG</Hsp_qseq>
+      <Hsp_hseq>AAGAACAACAGACTGGGGTTGCAGGAAAGGAGGTGATCCTGAGCTGTAAAGGCATAAATCATCACAAAGATGCGTTCTGTACTTGGAAGTACAAGTATAAAGAAGATTCTTATATTATTATGAGGTTTTCTAGAACACAGATTCTTAAAGGCAAAGCTCCAATGACTCATCGATCTGAATTGAACTTGAGCAGCAAACAGCTGAAGGTG</Hsp_hseq>
+      <Hsp_midline>|||||||||||| |||| |||||||||||||||||||||||||||| |||| ||||||| |||| ||||||| |  ||||||||||||||||||||||||||||| ||||| || |||||| || ||||||| | ||||| || |||||||||||||||||||||||||||||||||||||||||| || ||||||| |||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>7</Hit_num>
+  <Hit_id>gi|1201822348|ref|XM_021396054.1|</Hit_id>
+  <Hit_def>PREDICTED: Numida meleagris CD4 molecule (CD4), transcript variant X3, mRNA</Hit_def>
+  <Hit_accession>XM_021396054</Hit_accession>
+  <Hit_len>2114</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>270.731</Hsp_bit-score>
+      <Hsp_score>146</Hsp_score>
+      <Hsp_evalue>8.01781e-69</Hsp_evalue>
+      <Hsp_query-from>2</Hsp_query-from>
+      <Hsp_query-to>210</Hsp_query-to>
+      <Hsp_hit-from>384</Hsp_hit-from>
+      <Hsp_hit-to>592</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>188</Hsp_identity>
+      <Hsp_positive>188</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>209</Hsp_align-len>
+      <Hsp_qseq>AAGAACAACAGATTGGGATTGCAGGAAAGGAGGTGATCCTGAGCTGCAAAGCCATAAATAATCAGAAAGATGGGACCTGTACTTGGAAGTACAAGTATAAAGAAGTTTCTTCTACTATTATAAGCTTTTCTAAAGCACAGGTTTTTAAAGGCAAAGCTCCAATGACTCATCGATCTGAATTGAACTCGAACAGCAAAAAGCTGAAGGTG</Hsp_qseq>
+      <Hsp_hseq>AAGAACAACAGACTGGGGTTGCAGGAAAGGAGGTGATCCTGAGCTGTAAAGGCATAAATCATCACAAAGATGCGTTCTGTACTTGGAAGTACAAGTATAAAGAAGATTCTTATATTATTATGAGGTTTTCTAGAACACAGATTCTTAAAGGCAAAGCTCCAATGACTCATCGATCTGAATTGAACTTGAGCAGCAAACAGCTGAAGGTG</Hsp_hseq>
+      <Hsp_midline>|||||||||||| |||| |||||||||||||||||||||||||||| |||| ||||||| |||| ||||||| |  ||||||||||||||||||||||||||||| ||||| || |||||| || ||||||| | ||||| || |||||||||||||||||||||||||||||||||||||||||| || ||||||| |||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>8</Hit_num>
+  <Hit_id>gi|1201822346|ref|XM_021396047.1|</Hit_id>
+  <Hit_def>PREDICTED: Numida meleagris CD4 molecule (CD4), transcript variant X2, mRNA</Hit_def>
+  <Hit_accession>XM_021396047</Hit_accession>
+  <Hit_len>2263</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>270.731</Hsp_bit-score>
+      <Hsp_score>146</Hsp_score>
+      <Hsp_evalue>8.01781e-69</Hsp_evalue>
+      <Hsp_query-from>2</Hsp_query-from>
+      <Hsp_query-to>210</Hsp_query-to>
+      <Hsp_hit-from>533</Hsp_hit-from>
+      <Hsp_hit-to>741</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>188</Hsp_identity>
+      <Hsp_positive>188</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>209</Hsp_align-len>
+      <Hsp_qseq>AAGAACAACAGATTGGGATTGCAGGAAAGGAGGTGATCCTGAGCTGCAAAGCCATAAATAATCAGAAAGATGGGACCTGTACTTGGAAGTACAAGTATAAAGAAGTTTCTTCTACTATTATAAGCTTTTCTAAAGCACAGGTTTTTAAAGGCAAAGCTCCAATGACTCATCGATCTGAATTGAACTCGAACAGCAAAAAGCTGAAGGTG</Hsp_qseq>
+      <Hsp_hseq>AAGAACAACAGACTGGGGTTGCAGGAAAGGAGGTGATCCTGAGCTGTAAAGGCATAAATCATCACAAAGATGCGTTCTGTACTTGGAAGTACAAGTATAAAGAAGATTCTTATATTATTATGAGGTTTTCTAGAACACAGATTCTTAAAGGCAAAGCTCCAATGACTCATCGATCTGAATTGAACTTGAGCAGCAAACAGCTGAAGGTG</Hsp_hseq>
+      <Hsp_midline>|||||||||||| |||| |||||||||||||||||||||||||||| |||| ||||||| |||| ||||||| |  ||||||||||||||||||||||||||||| ||||| || |||||| || ||||||| | ||||| || |||||||||||||||||||||||||||||||||||||||||| || ||||||| |||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>9</Hit_num>
+  <Hit_id>gi|1201822344|ref|XM_021396041.1|</Hit_id>
+  <Hit_def>PREDICTED: Numida meleagris CD4 molecule (CD4), transcript variant X1, mRNA</Hit_def>
+  <Hit_accession>XM_021396041</Hit_accession>
+  <Hit_len>2159</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>270.731</Hsp_bit-score>
+      <Hsp_score>146</Hsp_score>
+      <Hsp_evalue>8.01781e-69</Hsp_evalue>
+      <Hsp_query-from>2</Hsp_query-from>
+      <Hsp_query-to>210</Hsp_query-to>
+      <Hsp_hit-from>429</Hsp_hit-from>
+      <Hsp_hit-to>637</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>188</Hsp_identity>
+      <Hsp_positive>188</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>209</Hsp_align-len>
+      <Hsp_qseq>AAGAACAACAGATTGGGATTGCAGGAAAGGAGGTGATCCTGAGCTGCAAAGCCATAAATAATCAGAAAGATGGGACCTGTACTTGGAAGTACAAGTATAAAGAAGTTTCTTCTACTATTATAAGCTTTTCTAAAGCACAGGTTTTTAAAGGCAAAGCTCCAATGACTCATCGATCTGAATTGAACTCGAACAGCAAAAAGCTGAAGGTG</Hsp_qseq>
+      <Hsp_hseq>AAGAACAACAGACTGGGGTTGCAGGAAAGGAGGTGATCCTGAGCTGTAAAGGCATAAATCATCACAAAGATGCGTTCTGTACTTGGAAGTACAAGTATAAAGAAGATTCTTATATTATTATGAGGTTTTCTAGAACACAGATTCTTAAAGGCAAAGCTCCAATGACTCATCGATCTGAATTGAACTTGAGCAGCAAACAGCTGAAGGTG</Hsp_hseq>
+      <Hsp_midline>|||||||||||| |||| |||||||||||||||||||||||||||| |||| ||||||| |||| ||||||| |  ||||||||||||||||||||||||||||| ||||| || |||||| || ||||||| | ||||| || |||||||||||||||||||||||||||||||||||||||||| || ||||||| |||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>10</Hit_num>
+  <Hit_id>gi|1776480838|ref|XM_010717880.3|</Hit_id>
+  <Hit_def>PREDICTED: Meleagris gallopavo CD4 molecule (CD4), transcript variant X1, mRNA</Hit_def>
+  <Hit_accession>XM_010717880</Hit_accession>
+  <Hit_len>2210</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>255.958</Hsp_bit-score>
+      <Hsp_score>138</Hsp_score>
+      <Hsp_evalue>2.24508e-64</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>210</Hsp_query-to>
+      <Hsp_hit-from>483</Hsp_hit-from>
+      <Hsp_hit-to>692</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>186</Hsp_identity>
+      <Hsp_positive>186</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>210</Hsp_align-len>
+      <Hsp_qseq>CAAGAACAACAGATTGGGATTGCAGGAAAGGAGGTGATCCTGAGCTGCAAAGCCATAAATAATCAGAAAGATGGGACCTGTACTTGGAAGTACAAGTATAAAGAAGTTTCTTCTACTATTATAAGCTTTTCTAAAGCACAGGTTTTTAAAGGCAAAGCTCCAATGACTCATCGATCTGAATTGAACTCGAACAGCAAAAAGCTGAAGGTG</Hsp_qseq>
+      <Hsp_hseq>CAAGAACAACAGACTGGGCTTGCAGGAAAGGAGGTGATCCTGAGCTGTAAAGACACAAGCCATCAGAGAGATTCAACCTGTACTTGGAAGTACAAGTATAAGGAAGTTTCTTCTACAATTATAAGCTTTTCTAGATCAAACATTTTTAAAGGCAAAGCCCCAATGACTCATCGATCTGAATTGAAGTCGGAGAGCAAACAGCTGAAGGTG</Hsp_hseq>
+      <Hsp_midline>||||||||||||| |||| |||||||||||||||||||||||||||| |||| || ||   |||||| ||||   |||||||||||||||||||||||||| |||||||||||||| |||||||||||||||| | || |  |||||||||||||||| |||||||||||||||||||||||||| ||| | |||||| |||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>11</Hit_num>
+  <Hit_id>gi|1776164019|ref|XM_031610200.1|</Hit_id>
+  <Hit_def>PREDICTED: Phasianus colchicus T-cell surface glycoprotein CD4-like (LOC116239941), mRNA</Hit_def>
+  <Hit_accession>XM_031610200</Hit_accession>
+  <Hit_len>2215</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>255.958</Hsp_bit-score>
+      <Hsp_score>138</Hsp_score>
+      <Hsp_evalue>2.24508e-64</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>210</Hsp_query-to>
+      <Hsp_hit-from>459</Hsp_hit-from>
+      <Hsp_hit-to>668</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>186</Hsp_identity>
+      <Hsp_positive>186</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>210</Hsp_align-len>
+      <Hsp_qseq>CAAGAACAACAGATTGGGATTGCAGGAAAGGAGGTGATCCTGAGCTGCAAAGCCATAAATAATCAGAAAGATGGGACCTGTACTTGGAAGTACAAGTATAAAGAAGTTTCTTCTACTATTATAAGCTTTTCTAAAGCACAGGTTTTTAAAGGCAAAGCTCCAATGACTCATCGATCTGAATTGAACTCGAACAGCAAAAAGCTGAAGGTG</Hsp_qseq>
+      <Hsp_hseq>CAAGAACAACAGACTGGGGTTGCAGGAAAGGAGGTGATCCTGAGCTGTAAGGACATAAACTATCAGAAAGACATGAACTGTAATTGGAAGTACAAGTATAAGGAAGCTTATTCTACAATTATAAGCTTTTCTAAAACAAAGATTTTTAAAGGCAAAGCCCCAATGACTCATCGATCTGAAATGAAGTCGGACAGCAAACAGCTGAAGGTG</Hsp_hseq>
+      <Hsp_midline>||||||||||||| |||| |||||||||||||||||||||||||||| || | ||||||  ||||||||||   || ||||| |||||||||||||||||| |||| || |||||| |||||||||||||||||| || || |||||||||||||||| ||||||||||||||||||||| |||| ||| |||||||| |||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>12</Hit_num>
+  <Hit_id>gi|734703831|ref|NM_001303196.1|</Hit_id>
+  <Hit_def>Meleagris gallopavo CD4 molecule (CD4), mRNA</Hit_def>
+  <Hit_accession>NM_001303196</Hit_accession>
+  <Hit_len>1771</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>255.958</Hsp_bit-score>
+      <Hsp_score>138</Hsp_score>
+      <Hsp_evalue>2.24508e-64</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>210</Hsp_query-to>
+      <Hsp_hit-from>230</Hsp_hit-from>
+      <Hsp_hit-to>439</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>186</Hsp_identity>
+      <Hsp_positive>186</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>210</Hsp_align-len>
+      <Hsp_qseq>CAAGAACAACAGATTGGGATTGCAGGAAAGGAGGTGATCCTGAGCTGCAAAGCCATAAATAATCAGAAAGATGGGACCTGTACTTGGAAGTACAAGTATAAAGAAGTTTCTTCTACTATTATAAGCTTTTCTAAAGCACAGGTTTTTAAAGGCAAAGCTCCAATGACTCATCGATCTGAATTGAACTCGAACAGCAAAAAGCTGAAGGTG</Hsp_qseq>
+      <Hsp_hseq>CAAGAACAACAGACTGGGCTTGCAGGAAAGGAGGTGATCCTGAGCTGTAAAGACACAAGCCATCAGAGAGATTCAACCTGTACTTGGAAGTACAAGTATAAGGAAGTTTCTTCTACAATTATAAGCTTTTCTAGATCAAACATTTTTAAAGGCAAAGCCCCAATGACTCATCGATCTGAATTGAAGTCGGAGAGCAAACAGCTGAAGGTG</Hsp_hseq>
+      <Hsp_midline>||||||||||||| |||| |||||||||||||||||||||||||||| |||| || ||   |||||| ||||   |||||||||||||||||||||||||| |||||||||||||| |||||||||||||||| | || |  |||||||||||||||| |||||||||||||||||||||||||| ||| | |||||| |||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+</Iteration_hits>
+  <Iteration_stat>
+    <Statistics>
+      <Statistics_db-num>52356835</Statistics_db-num>
+      <Statistics_db-len>144379689694</Statistics_db-len>
+      <Statistics_hsp-len>33</Statistics_hsp-len>
+      <Statistics_eff-space>25249388802603</Statistics_eff-space>
+      <Statistics_kappa>0.46</Statistics_kappa>
+      <Statistics_lambda>1.28</Statistics_lambda>
+      <Statistics_entropy>0.85</Statistics_entropy>
+    </Statistics>
+  </Iteration_stat>
+</Iteration>
+</BlastOutput_iterations>
+</BlastOutput>
+
