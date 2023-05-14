@@ -1,8 +1,8 @@
 from Bio.Blast import NCBIWWW
 from Bio.Blast import NCBIXML
+from Bio.Blast.Applications import NcbiblastnCommandline
 
-
-def blast(tmp, file_out_dir, total_pre_binding_file_name, blast_results_file='5_blast_results.xml'):
+def blast_online(tmp, BDS_file_out_dir, total_pre_binding_file_name, blast_results_file='5_blast_results.xml'):
     with open(file_out_dir+total_pre_binding_file_name, 'r') as f:
         fasta_string = f.read()
     txid = [2697049]  # organism
@@ -14,6 +14,15 @@ def blast(tmp, file_out_dir, total_pre_binding_file_name, blast_results_file='5_
                             format_type='Xml')
     with open(tmp+blast_results_file, 'w') as f:
         f.write(handle.read())
+
+
+def blast_local(tmp, BDS_file_out_dir, total_pre_binding_file_name, blast_results_file='5_blast_results.xml'):
+    # Define the blastn command line
+    blastn_cline = NcbiblastnCommandline(query=file_out_dir+total_pre_binding_file_name, db="refseq_rna", task="megablast", 
+                                        outfmt=5, out=tmp+blast_results_file) # outfmt=5 generates an XML output that includes alignment details
+    
+    # Execute the blast command
+    stdout, stderr = blastn_cline()
 
 
 def extract_blast_inf(tmp, blast_results_file, tmp_output_pd):
