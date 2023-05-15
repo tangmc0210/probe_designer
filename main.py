@@ -8,7 +8,7 @@ from lib.select_wanted_BS import select_wanted
 from lib.merge import merge
 
 
-workdir = 'C:/Users/14187/Documents/Github/Probe_designer/dataset'
+workdir = '~/Github/Probe_designer/dataset'
 
 current_time = time.localtime()
 formatted_time = time.strftime("%Y%m%d_%H%M%S", current_time)
@@ -43,7 +43,8 @@ tmp_output_pd = site_searcher(tmp_output_pd, BDS_len=40, max_num=30,
 
 # blast
 ## perform local blast
-blast_local(tmp, BDS_file_out_dir='./pre_binding_dir', total_pre_binding_file_name='_total_pre_binding.fasta', blast_results_file='5_blast_results.xml')
+blast_local(tmp, BDS_file_out_dir='./pre_binding_dir', total_pre_binding_file_name='_total_pre_binding.fasta', blast_results_file='5_blast_results.xml',
+                 db="refseq_rna", task="megablast")
 
 ## Extract interested information from blast_results
 tmp_output_pd = extract_blast_inf(s, tmp, blast_results_file='5_blast_results.xml')

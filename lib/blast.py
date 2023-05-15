@@ -16,9 +16,10 @@ def blast_online(tmp, BDS_file_out_dir, total_pre_binding_file_name, blast_resul
         f.write(handle.read())
 
 
-def blast_local(tmp, BDS_file_out_dir, total_pre_binding_file_name, blast_results_file='5_blast_results.xml'):
+def blast_local(tmp, BDS_file_out_dir, total_pre_binding_file_name, blast_results_file='5_blast_results.xml', 
+                 db="refseq_rna", task="megablast"): # db='refseq_rna' or 'refseq_select_rna'
     # Define the blastn command line
-    blastn_cline = NcbiblastnCommandline(query=file_out_dir+total_pre_binding_file_name, db="refseq_rna", task="megablast", 
+    blastn_cline = NcbiblastnCommandline(query=file_out_dir+total_pre_binding_file_name, db=db, task=task, 
                                         outfmt=5, out=tmp+blast_results_file) # outfmt=5 generates an XML output that includes alignment details
     
     # Execute the blast command
