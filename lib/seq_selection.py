@@ -1,6 +1,25 @@
 import pandas as pd
 
 
+def pre_box_select(gene_name, gene_name_list, mol_type, organism):
+    select = True
+    # check gene name
+    if gene_name not in gene_name_list:
+        select = False
+
+    # get molecule_type
+    if select:
+        if mol_type != "mRNA":
+            select = False
+
+    # # check organism
+    # if select:
+    #     if organism != 'Homo Spanies':
+    #         select = False
+
+    return select
+
+
 def pre_blast_select(seq):
     select = True
 
@@ -72,3 +91,5 @@ def select_wanted(tmp_output_pd, tmp, output, gene_name_list, gene_name_list_tos
     output_df = tmp_output_pd[tmp_output_pd["wanted"] == True]
     # write the output to a xlsx file
     output_df.to_excel(output + "probes_wanted.xlsx")
+
+    return gene_name_list_out

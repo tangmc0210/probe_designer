@@ -30,9 +30,19 @@ Prepare a .xlsx file including column "gene_name" which include target genes as 
 
 ### Change work dir in main.py
 
-`workdir = '~/Github/Probe_designer/dataset'`
+`workdir = '~/probe_designer/dataset'`
 
-## Binding site search strategy
+### Run with interactive command window
+
+Run code in proper environment:
+
+```powershell
+python main.py
+```
+
+And prepare files following commands.
+
+## Binding site search strategy*
 
 Current strategy for binding site search is bruteforce. The program will begin in the middle of a mRNA sequence and extend with a step length(length of mRNA sequence divided by binding site length) to both side. You will get n binding site sequences, where n is the maxium of your intended number and the max number you can get from a mRNA sequence.
 
@@ -44,13 +54,13 @@ After that, the binding site sequences will be selected by gene and species spec
 
 Given the gene name list, the program search for target sequence using entrez provided by ncbi. However, the search results are usually mismatched so I recommand to search on website and choose target GI for next step analysis.
 
-This step returns file `results/time/tmp/1_id_list.txt`.
+This step returns file `results/time/tmp/2_id_list.txt`.
 
 ### Get genbank file of each mRNA from ncbi dataset
 
 The program downloads rna seq from ncbi according to GI number given in tmp file "1_id_list.txt". So prepare the id_list file yourself by searching on web if you find it awful using auto search in previous step.
 
-This step returns file `results/time/tmp/2_gene_seq_in_file.gb`
+This step returns file `results/time/tmp/3_gene_seq_in_file.gb`
 
 ### Binding site searcher
 
@@ -58,11 +68,11 @@ As mentioned in **Binding site search strategy**, current search stratagy is bru
 
 This part is most likely to be improved if you want to get better hybriding performance.
 
-This step returns a series of .fasta file as `results/time/tmp/pre_biding/.fasta` where `_total_pre_binding.fasta` is to blast.
+This step returns a series of .fasta file as `results/time/tmp/pre_biding/.fasta` where `_total_pre_binding.fasta` is to blast. And it returns a `results/time/tmp/4_pre_binding_num.json` file which shows valid seq got from box searcher.
 
 ### Blast and decoding of blast_results
 
-You can perform local blast or web blast on `_total_pre_binding.fasta` to get `results/time/tmp/4_blast_results.xml` file for decoding. You will need to build your local blast if you need to perform blast in this code. Otherwise, you can get blast results by uploading the file to blast web and download the blast results as `results/time/tmp/4_blast_results.xml`.
+You can perform local blast or web blast on `_total_pre_binding.fasta` to get `results/time/tmp/5_blast_results.xml` file for decoding. You will need to build your local blast if you need to perform blast in this code. Otherwise, you can get blast results by uploading the file to blast web and download the blast results as `results/time/tmp/5_blast_results.xml`.
 
 *Tip1: web blast length is limited to about 1200 sequences once, so split the gene name list if target gene number is too large.*
 

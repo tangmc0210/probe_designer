@@ -3,7 +3,7 @@ import json
 from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
-from lib.seq_selection import pre_blast_select
+from lib.seq_selection import pre_blast_select, pre_box_select
 
 
 def site_searcher(
@@ -37,17 +37,15 @@ def site_searcher(
                 if feature.type == "CDS":
                     gene_name = feature.qualifiers.get("gene", ["NAN"])[0]
 
-        # check gene name
-        if gene_name not in gene_name_list:
-            continue
-
         # get molecule_type
         mol_type = gene_seq_in.annotations["molecule_type"]
-        if mol_type != "mRNA":
-            continue
 
         # get organism
         organism = gene_seq_in.annotations["organism"]
+
+        # select by gene_name, mol_type and organism
+        if not pre_box_select(gene_name, gene_name_list, mol_type, organism):
+            continue
 
         # get minus seq
         try:
@@ -61,6 +59,7 @@ def site_searcher(
         pre_binding_num_tmp = min(length // BDS_len, tmp_max_num)
         st = length // 2 - pre_binding_num_tmp * BDS_len // 2
 
+        valid_num = 0
         # generate and write pre_binding for each gene in a fasta file
         record_list = []
         file_out = f"{BDS_file_out_dir}{id}{pre_binding_file_suffix}"
@@ -70,6 +69,7 @@ def site_searcher(
 
             if not pre_blast_select(pre_binding_tmp):
                 continue
+            valid_num += 1
 
             record_list.append(
                 SeqRecord(
@@ -84,7 +84,10 @@ def site_searcher(
                 i + pos, ["accession", "gene_name", "mol_type", "organism", "binding"]
             ] = [id, gene_name, mol_type, organism, pre_binding_tmp]
 
-        pos += pre_binding_num_tmp
+            if valid_num >= max_num:
+                break
+
+        pos += valid_num
 
         # write pre_binding to files
         with open(file_out, "w") as f:
@@ -95,7 +98,7 @@ def site_searcher(
                 SeqIO.write(new_record, handle, "fasta")
 
         # record the num of pre_binding for each gene
-        pre_binding_num[id] = [gene_name, pre_binding_num_tmp]
+        pre_binding_num[id] = [gene_name, valid_num]
 
     with open(tmp + pre_binding_num_file, "w") as f:
         json.dump(pre_binding_num, f)
