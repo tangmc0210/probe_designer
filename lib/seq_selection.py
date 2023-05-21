@@ -14,7 +14,7 @@ def pre_box_select(gene_name, gene_name_list, mol_type, organism):
 
     # # check organism
     # if select:
-    #     if organism != 'Homo Spanies':
+    #     if organism != 'Homo sapiens':
     #         select = False
 
     return select

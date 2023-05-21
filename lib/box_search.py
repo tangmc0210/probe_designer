@@ -28,6 +28,9 @@ def site_searcher(
     pos, length = 0, 0
     translib = {"A": "T", "T": "A", "C": "G", "G": "C"}
 
+    with open(BDS_file_out_dir + total_pre_binding_file_name, "w") as handle:
+        handle.write("")
+
     for gene_seq_in in SeqIO.parse(tmp + genbank_file, "genbank"):
         # get information of gene
         id = gene_seq_in.id  # get seq id

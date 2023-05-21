@@ -42,6 +42,10 @@ for round in range(0, -(-len(total_gene_name_list) // gene_per_round)):
     with open(tmp + "1_gene_name_list.txt", "w") as f:
         f.write("\n".join(gene_name_list))
 
+    # create gene id list file
+    with open(tmp + "2_id_list.txt", "w") as f:
+        f.write("")
+
     while True:
         ready = input('ready for "./results/time/tmp/2_id_list.txt" file? [True/False]')
         if ready:
@@ -73,7 +77,7 @@ for round in range(0, -(-len(total_gene_name_list) // gene_per_round)):
     )
 
     # blast
-    ## perform local blast
+    # # perform local blast
     # blast_local(
     #     tmp,
     #     BDS_file_out_dir="./pre_binding_dir",
@@ -82,6 +86,7 @@ for round in range(0, -(-len(total_gene_name_list) // gene_per_round)):
     #     db="refseq_rna",
     #     task="megablast",
     # )
+
     while True:
         ready = input(
             'ready for "./results/time/tmp/5_blast_results.xml" file? [True/False]'
@@ -108,6 +113,7 @@ for round in range(0, -(-len(total_gene_name_list) // gene_per_round)):
     # )
 
     # select wanted BDS
+
     gene_name_list_tosearch = select_wanted(
         tmp_output_pd,
         tmp,
