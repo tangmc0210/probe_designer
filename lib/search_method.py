@@ -3,6 +3,7 @@ import json
 from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
+import RNA
 from lib.seq_selection import pre_blast_select, pre_box_select
 
 
@@ -51,14 +52,14 @@ def site_searcher(
             continue
 
         # get minus seq
+        seq = str(gene_seq_in.seq)
         try:
-            seq_minus = [translib[i] for i in str(gene_seq_in.seq)]
-            seq = "".join(list(reversed(seq_minus)))
+            seq_minus = "".join(list(reversed([translib[i] for i in seq])))
         except:
             continue  # pass the loop if seq is not a mRNA seq
 
         # set start point and pre_binding_num
-        length = len(seq)
+        length = len(seq_minus)
         pre_binding_num_tmp = min(length // BDS_len, tmp_max_num)
         st = length // 2 - pre_binding_num_tmp * BDS_len // 2
 
@@ -68,7 +69,7 @@ def site_searcher(
         file_out = f"{BDS_file_out_dir}{id}{pre_binding_file_suffix}"
 
         for i in range(pre_binding_num_tmp):
-            pre_binding_tmp = seq[st + i * BDS_len : st + i * BDS_len + BDS_len]
+            pre_binding_tmp = seq_minus[st + i * BDS_len : st + i * BDS_len + BDS_len]
 
             if not pre_blast_select(pre_binding_tmp):
                 continue
@@ -107,3 +108,11 @@ def site_searcher(
         json.dump(pre_binding_num, f)
 
     return tmp_output_pd
+
+
+def site_select_searcher(seq):
+    seq_list = []
+    second_stru = RNA.fold(seq)
+    pos = second_stru.find(".")
+    seq_list.append(seq[pos])
+    return seq_list

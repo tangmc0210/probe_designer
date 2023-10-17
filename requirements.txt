@@ -1,6 +1,0 @@
-# Python Version
-python==3.10.*
-
-# Packages
-pandas
-biopython

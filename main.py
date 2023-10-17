@@ -1,11 +1,11 @@
 import os
 import time
 import pandas as pd
-from project.probe_designer.lib.Entrez_GI_and_genbank import get_genbank_from_GI
-from project.probe_designer.lib.box_search import site_searcher
+from lib.Entrez_GI_and_genbank import get_genbank_from_GI
+from lib.search_method import site_searcher
 from lib.blast import blast_local, extract_blast_inf
-from project.probe_designer.lib.seq_selection import select_wanted
-from project.probe_designer.lib.results_merge import merge
+from lib.seq_selection import select_wanted
+from lib.results_merge import merge
 
 
 workdir = "~/Github/Probe_designer/dataset"
@@ -29,6 +29,8 @@ for round in range(0, -(-len(total_gene_name_list) // gene_per_round)):
         "mol_type",
         "organism",
         "binding",
+        "Tm_l",
+        "Tm_r",
         "wanted",
     ]
     align_FOIs = ["align_num", "align_accession", "align_descrip", "plus/minus"]
@@ -76,7 +78,7 @@ for round in range(0, -(-len(total_gene_name_list) // gene_per_round)):
         pre_binding_num_file="4_pre_binding_num.json",
     )
 
-    # blast
+    # sblast
     # # perform local blast
     # blast_local(
     #     tmp,
