@@ -78,7 +78,7 @@ for round in range(0, -(-len(total_gene_name_list) // gene_per_round)):
         pre_binding_num_file="4_pre_binding_num.json",
     )
 
-    # sblast
+    # blast
     # # perform local blast
     # blast_local(
     #     tmp,
@@ -89,6 +89,12 @@ for round in range(0, -(-len(total_gene_name_list) // gene_per_round)):
     #     task="megablast",
     # )
 
+    # # Extract interested information from blast_results
+    # tmp_output_pd = extract_blast_inf(
+    #     tmp=tmp, blast_results_file="5_blast_results.xml", tmp_output_pd=tmp_output_pd
+    # )
+
+    # blast on web and upload file mannually
     while True:
         ready = input(
             'ready for "./results/time/tmp/5_blast_results.xml" file? [True/False]'
@@ -109,13 +115,7 @@ for round in range(0, -(-len(total_gene_name_list) // gene_per_round)):
         else:
             print('please prepare for "./results/time/tmp/5_blast_results.xml" file')
 
-    # ## Extract interested information from blast_results
-    # tmp_output_pd = extract_blast_inf(
-    #     tmp=tmp, blast_results_file="5_blast_results.xml", tmp_output_pd=tmp_output_pd
-    # )
-
     # select wanted BDS
-
     gene_name_list_tosearch = select_wanted(
         tmp_output_pd,
         tmp,
