@@ -13,6 +13,8 @@ def gb_extract(record, CDS=True):
     # get information of gene
     translib = {"A": "T", "T": "A", "C": "G", "G": "C", "N": "N"}
     gene_name = "Nan"
+    coding_sequence = ""
+    gene_id = record.id
     mol_type = record.annotations["molecule_type"]
     organism = record.annotations["organism"]
 
@@ -21,11 +23,15 @@ def gb_extract(record, CDS=True):
             if feature.type == "CDS":
                 gene_name = feature.qualifiers.get("gene", ["NAN"])[0]
                 coding_sequence = feature.location.extract(record).seq
-                gene_id = record.id
 
     if CDS:
+        if coding_sequence == "":
+            print(
+                f"No CDS found in genbank file, please use another file or select on all sequence."
+            )
         seq_minus = [translib[i] for i in str(coding_sequence)]
         seq = "".join(list(reversed(seq_minus)))
+
     else:
         seq_minus = [translib[i] for i in str(record.seq)]
         seq = "".join(list(reversed(seq_minus)))
@@ -178,6 +184,12 @@ def find_max_min_difference_fixed_length_subsequence(
     better_gap=80,
     gene="",
 ):
+    if len(arr) == 0:
+        print(
+            f"Gene {gene}: \tNo valid positions, please loosen your threshold conditions."
+        )
+        return []
+
     arr.sort()
 
     def is_valid(min_difference, length, min_gap):
@@ -261,6 +273,7 @@ def step_by_step(
         better_gap=better_gap,
         gene=gene,
     )
+
     Tm_l = [Tm_l_list[_] for _ in best_pos]
     Tm_r = [Tm_r_list[_] for _ in best_pos]
     seq_out = [sequence[_ : _ + BDS_len] for _ in best_pos]
