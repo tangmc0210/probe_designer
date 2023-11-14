@@ -3,8 +3,34 @@ import json
 from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
-import RNA
-from lib.seq_selection import pre_blast_select, pre_box_select
+
+# import RNA
+from seq_selection import pre_blast_select, pre_box_select
+from Bio.SeqUtils import MeltingTemp as mt
+
+
+def gb_extract(record, CDS=True):
+    # get information of gene
+    translib = {"A": "T", "T": "A", "C": "G", "G": "C", "N": "N"}
+    gene_name = "Nan"
+    mol_type = record.annotations["molecule_type"]
+    organism = record.annotations["organism"]
+
+    if record.features:
+        for feature in record.features:
+            if feature.type == "CDS":
+                gene_name = feature.qualifiers.get("gene", ["NAN"])[0]
+                coding_sequence = feature.location.extract(record).seq
+                gene_id = record.id
+
+    if CDS:
+        seq_minus = [translib[i] for i in str(coding_sequence)]
+        seq = "".join(list(reversed(seq_minus)))
+    else:
+        seq_minus = [translib[i] for i in str(record.seq)]
+        seq = "".join(list(reversed(seq_minus)))
+
+    return gene_id, gene_name, mol_type, organism, s
 
 
 def site_searcher(
@@ -110,9 +136,138 @@ def site_searcher(
     return tmp_output_pd
 
 
-def site_select_searcher(seq):
-    seq_list = []
-    second_stru = RNA.fold(seq)
-    pos = second_stru.find(".")
-    seq_list.append(seq[pos])
-    return seq_list
+import random
+from tqdm import tqdm
+
+
+def select_random_non_overlapping_substrings(input_string, length, num_substrings):
+    if length > len(input_string) or num_substrings * length > len(input_string):
+        # if length > len(input_string):
+        raise ValueError("Invalid input parameters.")
+
+    available_positions = list(range(len(input_string) - length + 1))
+    random.shuffle(available_positions)
+
+    substrings = []
+    positions = set()  # To keep track of selected positions
+
+    for _ in range(num_substrings):
+        if not available_positions:
+            break  # Stop if there are no more non-overlapping positions
+
+        # Try to find a non-overlapping position
+        selected_position = available_positions.pop()
+        while selected_position in positions:
+            if not available_positions:
+                break
+            selected_position = available_positions.pop()
+
+        if selected_position not in positions:
+            positions.add(selected_position)
+            end = selected_position + length
+            selected_substring = input_string[selected_position:end]
+            substrings.append(selected_substring)
+
+    return substrings
+
+
+def find_max_min_difference_fixed_length_subsequence(
+    arr,
+    length,
+    min_gap,
+    better_gap=80,
+    gene="",
+):
+    arr.sort()
+
+    def is_valid(min_difference, length, min_gap):
+        count = 1
+        current_min = arr[0]
+
+        for i in range(1, len(arr)):
+            if arr[i] - current_min >= min_difference:
+                count += 1
+                current_min = arr[i]
+
+        return count >= length and min_difference > min_gap
+
+    left, right = 0, arr[-1] - arr[0]
+    result = []
+    while left <= right:
+        mid = (left + right) // 2
+        if is_valid(mid, length, min_gap):
+            result = [arr[0]]
+            current_min = arr[0]
+            for i in range(1, len(arr)):
+                if arr[i] - current_min >= mid:
+                    result.append(arr[i])
+                    current_min = arr[i]
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    if result == []:
+        print(f"Gene {gene}: \tNot enough pos for {length} binding sites.")
+        result = arr
+
+    if mid < better_gap:
+        print(f"Gene {gene}: \tcondition too harsh, loose to get better results")
+        print(result)
+
+    return result
+
+
+def step_by_step(
+    sequence,
+    BDS_len,
+    BDS_num,
+    min_gap,
+    better_gap,
+    gene="",
+    G_min=0.3,
+    G_max=0.7,
+    G_consecutive=5,
+    Tm_low=50,
+    Tm_high=65,
+    pin_gap=0.1,
+):
+    seq_gap = int(len(sequence) * pin_gap)
+    sequence = sequence[seq_gap : len(sequence) - seq_gap]
+    position = [_ for _ in range(len(sequence) - BDS_len)]
+    pos_of_True = []
+    Tm_l_list = [0] * len(position)
+    Tm_r_list = [0] * len(position)
+    for pos in tqdm(position, desc=f"position_searching_{gene}"):
+        bds = sequence[pos : pos + BDS_len]
+        # check G 40%-70%, non consective 5 base
+        if "G" * G_consecutive in bds:
+            continue
+        G_per = bds.count("G") / len(bds)
+        if G_per < G_min or G_per > G_max:
+            continue
+        # check Tm
+        Tm_l = mt.Tm_NN(bds[: BDS_len // 2], nn_table=mt.R_DNA_NN1)
+        Tm_r = mt.Tm_NN(bds[BDS_len // 2 :], nn_table=mt.R_DNA_NN1)
+        if Tm_l > Tm_high or Tm_l < Tm_low or Tm_r > Tm_high or Tm_r < Tm_low:
+            continue
+        pos_of_True.append(pos)
+        Tm_l_list[pos] = Tm_l
+        Tm_r_list[pos] = Tm_r
+
+    best_pos = find_max_min_difference_fixed_length_subsequence(
+        pos_of_True,
+        BDS_num,
+        min_gap=min_gap,
+        better_gap=better_gap,
+        gene=gene,
+    )
+    Tm_l = [Tm_l_list[_] for _ in best_pos]
+    Tm_r = [Tm_r_list[_] for _ in best_pos]
+    seq_out = [sequence[_ : _ + BDS_len] for _ in best_pos]
+
+    return (
+        Tm_l,
+        Tm_r,
+        seq_out,
+        [_ + seq_gap for _ in best_pos],
+    )
