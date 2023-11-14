@@ -30,7 +30,7 @@ def gb_extract(record, CDS=True):
         seq_minus = [translib[i] for i in str(record.seq)]
         seq = "".join(list(reversed(seq_minus)))
 
-    return gene_id, gene_name, mol_type, organism, s
+    return gene_id, gene_name, mol_type, organism, seq
 
 
 def site_searcher(
