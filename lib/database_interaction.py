@@ -51,36 +51,29 @@ def get_genbank_from_GI(tmp, gene_id_name_file, genebank_file="3_gene_seq_in_fil
             f.write(seq_record)
 
 
-# Ensembl_database
+from tqdm import tqdm
 import requests
 
 
-def enn_lookup(gene="BRCA1", species="homo_sapiens"):
-    server = "http://rest.ensembl.org"
-    ext = f"/lookup/symbol/{species}/{gene}?"
-    options = ";".join(
-        ["type=cds", "multiple_sequences=true", "content-type=application/json"]
-    )
-    response = requests.get(url=server + ext + options)
-    lookup = response.json()
+# Ensembl_database
+def get_seqs_using_ensembl(gene="BRCA1", species="human", seq_type="cds"):
+    lookup_url = f"http://rest.ensembl.org/lookup/symbol/{species}/{gene}?content-type=application/json"
+    gene_id = requests.get(url=lookup_url).json()["id"]
 
-    id = lookup["id"]
-    ext = f"/sequence/id/{id}?"
-    options = ";".join(
-        [
-            f"species={species}",
-            "type=cds",
-            "multiple_sequences=true",
-            "content-type=application/json",
-        ]
-    )
-    response = requests.get(url=server + ext + options)
-    sequence = response.json()
+    transcripts_url = f"http://rest.ensembl.org/overlap/id/{gene_id}?feature=transcript;content-type=application/json"
+    transcripts = requests.get(url=transcripts_url).json()
 
-    return lookup, sequence
+    # Get sequences for each transcript
+    sequences = {}
+    for transcript in tqdm(transcripts, desc=f"Gene_{gene}"):
+        try:
+            seq_name = "|".join(
+                [transcript["id"], transcript["external_name"], transcript["biotype"]]
+            )
+            seq_url = f"http://rest.ensembl.org/sequence/id/{transcript['id']}?type={seq_type};content-type=application/json"
+            seq_response = requests.get(seq_url).json()
+            sequences[seq_name] = seq_response["seq"]
+        except:
+            continue
 
-
-def fetch_seq(gene, species, method="ensembl"):
-    if method == "ensembl":
-        lookup, sequences = enn_lookup(gene=gene, species=species)
     return sequences

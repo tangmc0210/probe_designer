@@ -5,8 +5,42 @@ from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 
 # import RNA
-from lib.seq_filter import pre_blast_select, pre_box_select
+# from seq_filter import pre_blast_select, pre_box_select
 from Bio.SeqUtils import MeltingTemp as mt
+
+
+def pre_filter(gene_name, gene_name_list, mol_type, organism):
+    select = True
+    # check gene name
+    if gene_name not in gene_name_list:
+        select = False
+    # get molecule_type
+    if select:
+        if mol_type != "mRNA":
+            select = False
+    # # check organism
+    # if select:
+    #     if organism != "Homo sapiens":
+    #         select = False
+    return select
+
+
+def pre_blast_filter(seq):
+    select = True
+    # non consective 5 base
+    if "GGGGG" in seq:
+        select = False
+    # check G 40%-70%
+    if select == True:
+        G_per = seq.count("G") / len(seq)
+        if G_per < 0.3 or G_per > 0.7:
+            select = False
+    return select
+
+
+def seq_minus(seq):
+    translib = {"A": "T", "T": "A", "C": "G", "G": "C"}
+    return "".join(list(reversed([translib[i] for i in seq])))
 
 
 def gb_extract(record, CDS=True):
