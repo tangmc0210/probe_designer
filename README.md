@@ -6,27 +6,26 @@ This program is intended to design padlock probes for spatial transcriptome. Whe
 
 ## Quickstart
 
-### Create environment using conda or pip
+### Create environment using conda
 
 ```powershell
-conda create --name <env_name> --file requirements.txt # where <env_name> could be probe_designer for example
-pip install -r requirements.txt
+conda env create --file environment.yml
 ```
 
 ### Prepare your dataset
 
-Create a directory for you task, like *exmple_dataset*.
+Create a directory for you task, like _exmple_dataset_.
 
-Prepare a .xlsx file including column "gene_name" which include target genes as *exmple_dataset/gene_name.xlsx*.
+Prepare a .xlsx file including column "gene*name" which include target genes as \_exmple_dataset/gene_name.xlsx*.
 
-*Example dataset:*
+_Example dataset:_
 
-| gene_name |... |
-| --------  |--- |
-| CD3D      |... |
-| CD4      |... |
-| CD8A      |... |
-| ...       |... |
+| gene_name | ... |
+| --------- | --- |
+| CD3D      | ... |
+| CD4       | ... |
+| CD8A      | ... |
+| ...       | ... |
 
 ### Change work dir in main.py
 
@@ -42,7 +41,7 @@ python main.py
 
 And prepare files following commands.
 
-## Binding site search strategy*
+## Binding site search strategy\*
 
 Current strategy for binding site search is bruteforce. The program will begin in the middle of a mRNA sequence and extend with a step length(length of mRNA sequence divided by binding site length) to both side. You will get n binding site sequences, where n is the maxium of your intended number and the max number you can get from a mRNA sequence.
 
@@ -74,33 +73,35 @@ This step returns a series of .fasta file as `results/time/tmp/pre_biding/.fasta
 
 You can perform local blast or web blast on `_total_pre_binding.fasta` to get `results/time/tmp/5_blast_results.xml` file for decoding. You will need to build your local blast if you need to perform blast in this code. Otherwise, you can get blast results by uploading the file to blast web and download the blast results as `results/time/tmp/5_blast_results.xml`.
 
-*Tip1: web blast length is limited to about 1200 sequences once, so split the gene name list if target gene number is too large.*
+_Tip1: web blast length is limited to about 1200 sequences once, so split the gene name list if target gene number is too large._
 
-*Tip2: How to build local blast: [Download BLAST Software and Databases](https://blast.ncbi.nlm.nih.gov/doc/blast-help/downloadblastdata.html)*
+_Tip2: How to build local blast: [Download BLAST Software and Databases](https://blast.ncbi.nlm.nih.gov/doc/blast-help/downloadblastdata.html)_
 
 ### Select wanted binding site by specific rules
 
 Current rules are divided into two kinds: pre_blast rules and post_blast rules. Pre_blast rules work before blast the potential binding site sequences and can often exempt most of sequences while post_blast rules work after blast and are intended to get sequence specifity information.
 
-*Present pre_blast rules:*
+_Present pre_blast rules:_
 
 1. G percentage is between 40% and 70%;
 2. G is not consecutive up to 5 or more;
 3. Sequence type is mRNA (judge by genbank file);
 
-*Present post_blast rules:*
+_Present post_blast rules:_
 
 1. Binding site sequence is specific to this gene in interested organisms (judge by blast results);
 2. Binding site sequence is plus/minus to target gene;
 
-### Export *not-found* gene file for next round search
+### Export _not-found_ gene file for next round search
 
 Considering the error occurred in the id or sequencing searching, sift out in selection, the files of each step are saved as tmp file in `results/time/gene_name_list_tosearch`.
 
 ### Merge the results got from above
 
-run *merge.ipynb* to merge results got above and return a xlsx file of wanted binding sites for each gene.
+run _merge.ipynb_ to merge results got above and return a xlsx file of wanted binding sites for each gene.
 
 ## Perspective and plans
 
 1. Improve the searching strategy to get better binding performance.
+
+   Now, the searching stategy is optimized by searching every possible points and select the binding positions most far away.

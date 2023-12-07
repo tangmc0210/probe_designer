@@ -1,6 +1,7 @@
 from Bio import Entrez
 
 
+# NCBI_database
 def get_GI(tmp, gene_name_list_file, gene_id_name_file):
     # Get gene id and other information from ncbi dataset(api)
     ## Generate gene_search_list from gene_name_list
@@ -48,3 +49,38 @@ def get_genbank_from_GI(tmp, gene_id_name_file, genebank_file="3_gene_seq_in_fil
         print(i + 1, "{:.2f} %".format((i + 1) / round * 100))
         with open(tmp + genebank_file, "a") as f:
             f.write(seq_record)
+
+
+# Ensembl_database
+import requests
+
+
+def enn_lookup(gene="BRCA1", species="homo_sapiens"):
+    server = "http://rest.ensembl.org"
+    ext = f"/lookup/symbol/{species}/{gene}?"
+    options = ";".join(
+        ["type=cds", "multiple_sequences=true", "content-type=application/json"]
+    )
+    response = requests.get(url=server + ext + options)
+    lookup = response.json()
+
+    id = lookup["id"]
+    ext = f"/sequence/id/{id}?"
+    options = ";".join(
+        [
+            f"species={species}",
+            "type=cds",
+            "multiple_sequences=true",
+            "content-type=application/json",
+        ]
+    )
+    response = requests.get(url=server + ext + options)
+    sequence = response.json()
+
+    return lookup, sequence
+
+
+def fetch_seq(gene, species, method="ensembl"):
+    if method == "ensembl":
+        lookup, sequences = enn_lookup(gene=gene, species=species)
+    return sequences

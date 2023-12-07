@@ -5,7 +5,7 @@ from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 
 # import RNA
-from seq_selection import pre_blast_select, pre_box_select
+from lib.seq_filter import pre_blast_select, pre_box_select
 from Bio.SeqUtils import MeltingTemp as mt
 
 

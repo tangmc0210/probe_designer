@@ -2,11 +2,11 @@ from seqfold import dg, fold
 import random
 from Bio.Blast import NCBIXML
 
+
 # barcode generator for PRISM
 
+
 ## random seq generator and filter
-
-
 def random_seq_list(length=20, num=50):
     nucleotides = ["A", "T", "C", "G"]
     sequence = [
@@ -41,20 +41,13 @@ def thre_by_blast(file, thre=18):
         for blast_record in blast_records:
             save = True
             for alignment in blast_record.alignments:
-                # print("Alignment title:", alignment.title)
-                # print("Length of the alignment:", alignment.length)
-
-                # # Iterate over the high-scoring pairs (HSPs) in the alignment
+                # Iterate over the high-scoring pairs (HSPs) in the alignment
                 for hsp in alignment.hsps:
                     # print("HSP score:", hsp.score)
                     if hsp.score >= thre:
                         pos.append(False)
                         save = False
                         break
-                    # print("HSP bits:", hsp.bits)
-                    # print("HSP query sequence:", hsp.query)
-                    # print("HSP match sequence:", hsp.match)
-                    # print("HSP subject sequence:", hsp.sbjct)
             if save:
                 pos.append(True)
     return pos
