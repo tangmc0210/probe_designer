@@ -65,7 +65,7 @@ def get_seqs_using_ensembl(gene="BRCA1", species="human", seq_type="cds"):
 
     # Get sequences for each transcript
     sequences = {}
-    for transcript in tqdm(transcripts, desc=f"Gene_{gene}"):
+    for transcript in tqdm(transcripts, desc=f"Gene:\t{gene}"):
         try:
             seq_name = "|".join(
                 [transcript["id"], transcript["external_name"], transcript["biotype"]]

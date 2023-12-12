@@ -217,6 +217,7 @@ def find_max_min_difference_fixed_length_subsequence(
     min_gap,
     better_gap=80,
     gene="",
+    warn=True,
 ):
     if len(arr) == 0:
         print(
@@ -253,10 +254,11 @@ def find_max_min_difference_fixed_length_subsequence(
             right = mid - 1
 
     if result == []:
-        print(f"Gene {gene}: \tNot enough pos for {length} binding sites.")
+        if warn:
+            print(f"Gene {gene}: \tNot enough pos for {length} binding sites.")
         result = arr
 
-    if mid < better_gap:
+    if mid < better_gap and warn:
         print(f"Gene {gene}: \tcondition too harsh, loose to get better results")
         print(result)
 
@@ -276,6 +278,8 @@ def step_by_step(
     Tm_low=50,
     Tm_high=65,
     pin_gap=0.1,
+    show_process=True,
+    warn=True,
 ):
     seq_gap = int(len(sequence) * pin_gap)
     sequence = sequence[seq_gap : len(sequence) - seq_gap]
@@ -283,22 +287,40 @@ def step_by_step(
     pos_of_True = []
     Tm_l_list = [0] * len(position)
     Tm_r_list = [0] * len(position)
-    for pos in tqdm(position, desc=f"position_searching_{gene}"):
-        bds = sequence[pos : pos + BDS_len]
-        # check G 40%-70%, non consective 5 base
-        if "G" * G_consecutive in bds:
-            continue
-        G_per = bds.count("G") / len(bds)
-        if G_per < G_min or G_per > G_max:
-            continue
-        # check Tm
-        Tm_l = mt.Tm_NN(bds[: BDS_len // 2], nn_table=mt.R_DNA_NN1)
-        Tm_r = mt.Tm_NN(bds[BDS_len // 2 :], nn_table=mt.R_DNA_NN1)
-        if Tm_l > Tm_high or Tm_l < Tm_low or Tm_r > Tm_high or Tm_r < Tm_low:
-            continue
-        pos_of_True.append(pos)
-        Tm_l_list[pos] = Tm_l
-        Tm_r_list[pos] = Tm_r
+    if show_process:
+        for pos in tqdm(position, desc=f"position_searching_{gene}"):
+            bds = sequence[pos : pos + BDS_len]
+            # check G 40%-70%, non consective 5 base
+            if "G" * G_consecutive in bds:
+                continue
+            G_per = bds.count("G") / len(bds)
+            if G_per < G_min or G_per > G_max:
+                continue
+            # check Tm
+            Tm_l = mt.Tm_NN(bds[: BDS_len // 2], nn_table=mt.R_DNA_NN1)
+            Tm_r = mt.Tm_NN(bds[BDS_len // 2 :], nn_table=mt.R_DNA_NN1)
+            if Tm_l > Tm_high or Tm_l < Tm_low or Tm_r > Tm_high or Tm_r < Tm_low:
+                continue
+            pos_of_True.append(pos)
+            Tm_l_list[pos] = Tm_l
+            Tm_r_list[pos] = Tm_r
+    else:
+        for pos in position:
+            bds = sequence[pos : pos + BDS_len]
+            # check G 40%-70%, non consective 5 base
+            if "G" * G_consecutive in bds:
+                continue
+            G_per = bds.count("G") / len(bds)
+            if G_per < G_min or G_per > G_max:
+                continue
+            # check Tm
+            Tm_l = mt.Tm_NN(bds[: BDS_len // 2], nn_table=mt.R_DNA_NN1)
+            Tm_r = mt.Tm_NN(bds[BDS_len // 2 :], nn_table=mt.R_DNA_NN1)
+            if Tm_l > Tm_high or Tm_l < Tm_low or Tm_r > Tm_high or Tm_r < Tm_low:
+                continue
+            pos_of_True.append(pos)
+            Tm_l_list[pos] = Tm_l
+            Tm_r_list[pos] = Tm_r
 
     best_pos = find_max_min_difference_fixed_length_subsequence(
         pos_of_True,
@@ -306,6 +328,7 @@ def step_by_step(
         min_gap=min_gap,
         better_gap=better_gap,
         gene=gene,
+        warn=warn,
     )
 
     Tm_l = [Tm_l_list[_] for _ in best_pos]
