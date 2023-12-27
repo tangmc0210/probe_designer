@@ -56,10 +56,29 @@ import requests
 
 
 # Ensembl_database
-def get_seqs_using_ensembl(gene="BRCA1", species="human", seq_type="cds"):
+def ensembl_name_to_seqs(gene="BRCA1", species="human", seq_type="cds"):
     lookup_url = f"http://rest.ensembl.org/lookup/symbol/{species}/{gene}?content-type=application/json"
     gene_id = requests.get(url=lookup_url).json()["id"]
 
+    transcripts_url = f"http://rest.ensembl.org/overlap/id/{gene_id}?feature=transcript;content-type=application/json"
+    transcripts = requests.get(url=transcripts_url).json()
+
+    # Get sequences for each transcript
+    sequences = {}
+    for transcript in tqdm(transcripts, desc=f"Gene:\t{gene}"):
+        try:
+            seq_name = "|".join(
+                [transcript["id"], transcript["external_name"], transcript["biotype"]]
+            )
+            seq_url = f"http://rest.ensembl.org/sequence/id/{transcript['id']}?type={seq_type};content-type=application/json"
+            seq_response = requests.get(seq_url).json()
+            sequences[seq_name] = seq_response["seq"]
+        except:
+            continue
+
+    return sequences
+
+def ensembl_id_to_seqs(gene="Gm16024", gene_id='ENSMUST00000128841.1', seq_type="cds"):
     transcripts_url = f"http://rest.ensembl.org/overlap/id/{gene_id}?feature=transcript;content-type=application/json"
     transcripts = requests.get(url=transcripts_url).json()
 
