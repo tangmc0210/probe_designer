@@ -4,6 +4,7 @@ dataset/*
 !dataset/_example_dataset
 !dataset/_example_dataset/**
 
-binding_searcher_isoforms.ipynb
-binding_searcher_mutation.ipynb
-binding_searcher_TCR.ipynb
+binding_searcher**
+!binding_searcher_ensembl.ipynb
+!binding_searcher_NCBI.ipynb
+!binding_searcher.ipynb
