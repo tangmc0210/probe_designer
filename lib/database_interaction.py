@@ -76,6 +76,7 @@ def ensembl_name_to_seqs(gene="BRCA1", species="human", seq_type="cds", tqdm_arg
             except:
                 pbar_task.update(1)
                 continue
+
     return sequences
 
 def ensembl_id_to_seqs(gene="Gm16024", gene_id='ENSMUST00000128841.1', seq_type="cds"):
