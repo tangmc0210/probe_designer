@@ -3,3 +3,6 @@ play/*
 dataset/*
 !dataset/_example_dataset
 !dataset/_example_dataset/**
+binding_seacher_isoforms.ipynb
+binding_seacher_mutation.ipynb
+binding_seacher_TCR.ipynb
