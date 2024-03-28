@@ -287,40 +287,25 @@ def step_by_step(
     pos_of_True = []
     Tm_l_list = [0] * len(position)
     Tm_r_list = [0] * len(position)
-    if show_process:
-        for pos in tqdm(position, desc=f"position_searching_{gene}"):
-            bds = sequence[pos : pos + BDS_len]
-            # check G 40%-70%, non consective 5 base
-            if "G" * G_consecutive in bds:
-                continue
-            G_per = bds.count("G") / len(bds)
-            if G_per < G_min or G_per > G_max:
-                continue
-            # check Tm
-            Tm_l = mt.Tm_NN(bds[: BDS_len // 2], nn_table=mt.R_DNA_NN1)
-            Tm_r = mt.Tm_NN(bds[BDS_len // 2 :], nn_table=mt.R_DNA_NN1)
-            if Tm_l > Tm_high or Tm_l < Tm_low or Tm_r > Tm_high or Tm_r < Tm_low:
-                continue
-            pos_of_True.append(pos)
-            Tm_l_list[pos] = Tm_l
-            Tm_r_list[pos] = Tm_r
-    else:
-        for pos in position:
-            bds = sequence[pos : pos + BDS_len]
-            # check G 40%-70%, non consective 5 base
-            if "G" * G_consecutive in bds:
-                continue
-            G_per = bds.count("G") / len(bds)
-            if G_per < G_min or G_per > G_max:
-                continue
-            # check Tm
-            Tm_l = mt.Tm_NN(bds[: BDS_len // 2], nn_table=mt.R_DNA_NN1)
-            Tm_r = mt.Tm_NN(bds[BDS_len // 2 :], nn_table=mt.R_DNA_NN1)
-            if Tm_l > Tm_high or Tm_l < Tm_low or Tm_r > Tm_high or Tm_r < Tm_low:
-                continue
-            pos_of_True.append(pos)
-            Tm_l_list[pos] = Tm_l
-            Tm_r_list[pos] = Tm_r
+
+    for pos in tqdm(position, desc=f"position_searching_{gene}", disable=not show_process):
+        bds = sequence[pos : pos + BDS_len]
+        # check G 40%-70%, non consective 5 base
+        if "G" * G_consecutive in bds: continue
+        G_per = bds.count("G") / len(bds)
+        if G_per < G_min or G_per > G_max: continue
+
+        # check Tm
+        Tm_l = mt.Tm_NN(bds[: BDS_len // 2], nn_table=mt.R_DNA_NN1)
+        Tm_r = mt.Tm_NN(bds[BDS_len // 2 :], nn_table=mt.R_DNA_NN1)
+        if Tm_l > Tm_high or Tm_l < Tm_low or Tm_r > Tm_high or Tm_r < Tm_low: continue
+
+        # check 2nd structure
+        
+
+        pos_of_True.append(pos)
+        Tm_l_list[pos] = Tm_l
+        Tm_r_list[pos] = Tm_r
 
     best_pos = find_max_min_difference_fixed_length_subsequence(
         pos_of_True,
