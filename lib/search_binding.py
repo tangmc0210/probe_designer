@@ -279,7 +279,7 @@ def position_search(sequence,
             'Tm': Tm, 'Tm_l': Tm_l, 'Tm_r': Tm_r, 'mfe': mfe,
             })
 
-    pos_best = optimize_subsequence([_['pos'] for _ in pos_candidate.keys()], 
+    pos_best = optimize_subsequence([_['pos'] for _ in pos_candidate], 
         BDS_num, min_gap=min_gap, better_gap=better_gap,
         gene=gene, warn=warn,)
     
