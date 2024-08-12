@@ -245,17 +245,18 @@ def optimize_subsequence(
 
 import RNA
 
-def position_search(sequence_raw,  
+def position_search(sequence,  
     BDS_len=40, BDS_num=3, min_gap=1, better_gap=40, pin_gap=0.1, 
     G_min=0.3, G_max=0.7, G_consecutive=5, Tm_low=50, Tm_high=65, mfe_thre=-10, 
     gene="", verbose=True, verbose_pos=0, leave=True, warn=True):
-
-    seq_gap = int(len(sequence_raw) * pin_gap)
-    sequence = sequence_raw[seq_gap : len(sequence_raw) - seq_gap]
-    position = [_ for _ in range(len(sequence) - BDS_len)]
-    pos_wanted = []
-    Tm_l_list = [0] * len(position)
-    Tm_r_list = [0] * len(position)
+    
+    if len(sequence) < BDS_len:
+        if warn: print(f"Gene {gene}: sequence too short, please use longer sequence.")
+        return None
+    
+    seq_gap = int(len(sequence) * pin_gap)
+    position = [_ for _ in range(seq_gap, len(sequence) - seq_gap - BDS_len)]
+    pos_candidate = []
 
     for pos in tqdm(position, desc=f"{gene}", disable=not verbose, position=verbose_pos, leave=leave):
         bds = sequence[pos : pos + BDS_len]
@@ -267,22 +268,26 @@ def position_search(sequence_raw,
         # check Tm
         Tm_l = round(mt.Tm_NN(bds[: BDS_len // 2], nn_table=mt.R_DNA_NN1),2)
         Tm_r = round(mt.Tm_NN(bds[BDS_len // 2 :], nn_table=mt.R_DNA_NN1),2)
+        Tm = round(mt.Tm_NN(bds, nn_table=mt.R_DNA_NN1),2)
         if Tm_l > Tm_high or Tm_l < Tm_low or Tm_r > Tm_high or Tm_r < Tm_low: continue
         # check 2nd structure
-        (ss, mfe) = RNA.fold(bds)
-        if mfe > mfe_thre: continue
+        _, mfe = RNA.fold(bds)
+        if mfe < mfe_thre: continue
 
-        pos_wanted.append(pos)
-        Tm_l_list[pos] = Tm_l
-        Tm_r_list[pos] = Tm_r
+        pos_candidate.append({
+            'pos': pos, 
+            'Tm': Tm, 'Tm_l': Tm_l, 'Tm_r': Tm_r, 'mfe': mfe,
+            })
 
-    pos_best = optimize_subsequence(
-        pos_wanted, 
+    pos_best = optimize_subsequence([_['pos'] for _ in pos_candidate.keys()], 
         BDS_num, min_gap=min_gap, better_gap=better_gap,
         gene=gene, warn=warn,)
+    
+    pos_info = []
+    for record in pos_candidate:
+        if record['pos'] in pos_best:
+            pos = record['pos']
+            record['seq'] = sequence[pos : pos + BDS_len]
+            pos_info.append(record)
 
-    Tm_l = [Tm_l_list[_] for _ in pos_best]
-    Tm_r = [Tm_r_list[_] for _ in pos_best]
-    seq_wanted = [sequence[_ : _ + BDS_len] for _ in pos_best]
-
-    return Tm_l, Tm_r, seq_wanted, pos_best
+    return pos_info
