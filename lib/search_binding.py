@@ -43,10 +43,9 @@ def seq_minus(seq):
     return "".join(list(reversed([translib[i] for i in seq])))
 
 
-def gb_extract(record, CDS=True):
+def gb_extract(record, gene_name='Nan', CDS=True):
     # get information of gene
     translib = {"A": "T", "T": "A", "C": "G", "G": "C", "N": "N"}
-    gene_name = "Nan"
     coding_sequence = ""
     gene_id = record.id
     mol_type = record.annotations["molecule_type"]
@@ -55,14 +54,12 @@ def gb_extract(record, CDS=True):
     if record.features:
         for feature in record.features:
             if feature.type == "CDS":
-                gene_name = feature.qualifiers.get("gene", ["NAN"])[0]
+                gene_name = feature.qualifiers.get("gene", [gene_name])[0]
                 coding_sequence = feature.location.extract(record).seq
 
     if CDS:
         if coding_sequence == "":
-            print(
-                f"No CDS found in genbank file, please use another file or select on all sequence."
-            )
+            print(f"No CDS found in genbank file, please use another file or select on all sequence.")
         seq_minus = [translib[i] for i in str(coding_sequence)]
         seq = "".join(list(reversed(seq_minus)))
 
@@ -85,11 +82,7 @@ def site_searcher(
     BDS_len=40,
     max_num=30,
 ):
-    try:
-        os.mkdir(BDS_file_out_dir)
-    except:
-        pass
-
+    os.makedirs(BDS_file_out_dir, exist_ok=True)
     tmp_max_num = max_num * 2
     pre_binding_num = {}
     pos, length = 0, 0
@@ -114,15 +107,12 @@ def site_searcher(
         organism = gene_seq_in.annotations["organism"]
 
         # select by gene_name, mol_type and organism
-        if not pre_box_select(gene_name, gene_name_list, mol_type, organism):
-            continue
+        if not pre_filter(gene_name, gene_name_list, mol_type, organism): continue
 
         # get minus seq
         seq = str(gene_seq_in.seq)
-        try:
-            seq_minus = "".join(list(reversed([translib[i] for i in seq])))
-        except:
-            continue  # pass the loop if seq is not a mRNA seq
+        try: seq_minus = "".join(list(reversed([translib[i] for i in seq])))
+        except: continue  # pass the loop if seq is not a mRNA seq
 
         # set start point and pre_binding_num
         length = len(seq_minus)
@@ -137,21 +127,16 @@ def site_searcher(
         for i in range(pre_binding_num_tmp):
             pre_binding_tmp = seq_minus[st + i * BDS_len : st + i * BDS_len + BDS_len]
 
-            if not pre_blast_select(pre_binding_tmp):
-                continue
+            if not pre_blast_filter(pre_binding_tmp): continue
             valid_num += 1
 
             record_list.append(
-                SeqRecord(
-                    Seq(pre_binding_tmp),
-                    id="pre_binding" + str(i),
-                    description="|".join([id, gene_name, organism, mol_type]),
-                )
-            )
+                SeqRecord(Seq(pre_binding_tmp),
+                          id="pre_binding" + str(i),
+                          description="|".join([id, gene_name, organism, mol_type])))
 
             # add information about binding sites to tmp_output_pd
-            tmp_output_pd.loc[
-                i + pos, ["accession", "gene_name", "mol_type", "organism", "binding"]
+            tmp_output_pd.loc[i + pos, ["accession", "gene_name", "mol_type", "organism", "binding"]
             ] = [id, gene_name, mol_type, organism, pre_binding_tmp]
 
             if valid_num >= max_num:
@@ -180,7 +165,7 @@ import random
 from tqdm import tqdm
 
 
-def select_random_non_overlapping_substrings(input_string, length, num_substrings):
+def random_no_overlap_seqs(input_string, length, num_substrings):
     if length > len(input_string) or num_substrings * length > len(input_string):
         # if length > len(input_string):
         raise ValueError("Invalid input parameters.")
@@ -211,118 +196,93 @@ def select_random_non_overlapping_substrings(input_string, length, num_substring
     return substrings
 
 
-def find_max_min_difference_fixed_length_subsequence(
-    arr,
-    length,
-    min_gap,
-    better_gap=80,
-    gene="",
-    warn=True,
-):
-    if len(arr) == 0:
-        print(
-            f"Gene {gene}: \tNo valid positions, please loosen your threshold conditions."
-        )
+def optimize_subsequence(
+    positions, length, min_gap, better_gap=80,
+    gene="", warn=True,):
+    
+    if len(positions) == 0:
+        if warn: print(f"Gene {gene}: No valid positions, please loosen your threshold conditions.")
         return []
 
-    arr.sort()
+    positions.sort()
 
     def is_valid(min_difference, length, min_gap):
         count = 1
-        current_min = arr[0]
+        current_min = positions[0]
 
-        for i in range(1, len(arr)):
-            if arr[i] - current_min >= min_difference:
+        for i in range(1, len(positions)):
+            if positions[i] - current_min >= min_difference:
                 count += 1
-                current_min = arr[i]
+                current_min = positions[i]
 
         return count >= length and min_difference > min_gap
 
-    left, right = 0, arr[-1] - arr[0]
+    left, right = 0, positions[-1] - positions[0]
     result = []
     while left <= right:
         mid = (left + right) // 2
         if is_valid(mid, length, min_gap):
-            result = [arr[0]]
-            current_min = arr[0]
-            for i in range(1, len(arr)):
-                if arr[i] - current_min >= mid:
-                    result.append(arr[i])
-                    current_min = arr[i]
+            result = [positions[0]]
+            current_min = positions[0]
+            for i in range(1, len(positions)):
+                if positions[i] - current_min >= mid:
+                    result.append(positions[i])
+                    current_min = positions[i]
             left = mid + 1
         else:
             right = mid - 1
 
     if result == []:
-        if warn:
-            print(f"Gene {gene}: \tNot enough pos for {length} binding sites.")
-        result = arr
+        if warn: print(f"Gene {gene}: Not enough pos for {length} binding sites.")
+        result = positions
 
     if mid < better_gap and warn:
-        print(f"Gene {gene}: \tcondition too harsh, loose to get better results")
+        print(f"Gene {gene}: condition too harsh, loose to get better results")
         print(result)
 
     return result
 
 
-def step_by_step(
-    sequence,
-    BDS_len,
-    BDS_num,
-    min_gap,
-    better_gap,
-    gene="",
-    G_min=0.3,
-    G_max=0.7,
-    G_consecutive=5,
-    Tm_low=50,
-    Tm_high=65,
-    pin_gap=0.1,
-    show_process=True,
-    warn=True,
-):
-    seq_gap = int(len(sequence) * pin_gap)
-    sequence = sequence[seq_gap : len(sequence) - seq_gap]
+import RNA
+
+def position_search(sequence_raw,  
+    BDS_len=40, BDS_num=3, min_gap=1, better_gap=40, pin_gap=0.1, 
+    G_min=0.3, G_max=0.7, G_consecutive=5, Tm_low=50, Tm_high=65, mfe_thre=-10, 
+    gene="", verbose=True, verbose_pos=0, leave=True, warn=True):
+
+    seq_gap = int(len(sequence_raw) * pin_gap)
+    sequence = sequence_raw[seq_gap : len(sequence_raw) - seq_gap]
     position = [_ for _ in range(len(sequence) - BDS_len)]
-    pos_of_True = []
+    pos_wanted = []
     Tm_l_list = [0] * len(position)
     Tm_r_list = [0] * len(position)
 
-    for pos in tqdm(position, desc=f"position_searching_{gene}", disable=not show_process):
+    for pos in tqdm(position, desc=f"{gene}", disable=not verbose, position=verbose_pos, leave=leave):
         bds = sequence[pos : pos + BDS_len]
-        # check G 40%-70%, non consective 5 base
+        # non consective base
         if "G" * G_consecutive in bds: continue
-        G_per = bds.count("G") / len(bds)
-        if G_per < G_min or G_per > G_max: continue
-
+        # check G 40%-70%,
+        G_pct = bds.count("G") / len(bds)
+        if G_pct < G_min or G_pct > G_max: continue
         # check Tm
-        Tm_l = mt.Tm_NN(bds[: BDS_len // 2], nn_table=mt.R_DNA_NN1)
-        Tm_r = mt.Tm_NN(bds[BDS_len // 2 :], nn_table=mt.R_DNA_NN1)
+        Tm_l = round(mt.Tm_NN(bds[: BDS_len // 2], nn_table=mt.R_DNA_NN1),2)
+        Tm_r = round(mt.Tm_NN(bds[BDS_len // 2 :], nn_table=mt.R_DNA_NN1),2)
         if Tm_l > Tm_high or Tm_l < Tm_low or Tm_r > Tm_high or Tm_r < Tm_low: continue
-
         # check 2nd structure
-        
+        (ss, mfe) = RNA.fold(bds)
+        if mfe > mfe_thre: continue
 
-        pos_of_True.append(pos)
+        pos_wanted.append(pos)
         Tm_l_list[pos] = Tm_l
         Tm_r_list[pos] = Tm_r
 
-    best_pos = find_max_min_difference_fixed_length_subsequence(
-        pos_of_True,
-        BDS_num,
-        min_gap=min_gap,
-        better_gap=better_gap,
-        gene=gene,
-        warn=warn,
-    )
+    pos_best = optimize_subsequence(
+        pos_wanted, 
+        BDS_num, min_gap=min_gap, better_gap=better_gap,
+        gene=gene, warn=warn,)
 
-    Tm_l = [Tm_l_list[_] for _ in best_pos]
-    Tm_r = [Tm_r_list[_] for _ in best_pos]
-    seq_out = [sequence[_ : _ + BDS_len] for _ in best_pos]
+    Tm_l = [Tm_l_list[_] for _ in pos_best]
+    Tm_r = [Tm_r_list[_] for _ in pos_best]
+    seq_wanted = [sequence[_ : _ + BDS_len] for _ in pos_best]
 
-    return (
-        Tm_l,
-        Tm_r,
-        seq_out,
-        [_ + seq_gap for _ in best_pos],
-    )
+    return Tm_l, Tm_r, seq_wanted, pos_best
