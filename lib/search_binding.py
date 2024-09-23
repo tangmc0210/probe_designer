@@ -246,13 +246,13 @@ def optimize_subsequence(
 import RNA
 
 def position_search(sequence,  
-    BDS_len=40, BDS_num=3, min_gap=1, better_gap=40, pin_gap=0.1, 
-    G_min=0.3, G_max=0.7, G_consecutive=5, Tm_low=50, Tm_high=65, mfe_thre=-10, 
+    BDS_len=40, BDS_num=3, min_gap=0, better_gap=40, pin_gap=0.1, 
+    G_min=0.3, G_max=0.7, G_consecutive=5, Tm_low=50, Tm_high=65, Tm_dif_thre=5, mfe_thre=-10, 
     gene="", verbose=True, verbose_pos=0, leave=True, warn=True):
     
     if len(sequence) < BDS_len:
         if warn: print(f"Gene {gene}: sequence too short, please use longer sequence.")
-        return None
+        return []
     
     seq_gap = int(len(sequence) * pin_gap)
     position = [_ for _ in range(seq_gap, len(sequence) - seq_gap - BDS_len)]
@@ -266,18 +266,17 @@ def position_search(sequence,
         G_pct = bds.count("G") / len(bds)
         if G_pct < G_min or G_pct > G_max: continue
         # check Tm
-        Tm_l = round(mt.Tm_NN(bds[: BDS_len // 2], nn_table=mt.R_DNA_NN1),2)
-        Tm_r = round(mt.Tm_NN(bds[BDS_len // 2 :], nn_table=mt.R_DNA_NN1),2)
-        Tm = round(mt.Tm_NN(bds, nn_table=mt.R_DNA_NN1),2)
-        if Tm_l > Tm_high or Tm_l < Tm_low or Tm_r > Tm_high or Tm_r < Tm_low: continue
+        Tm_l = mt.Tm_NN(bds[: BDS_len // 2], nn_table=mt.R_DNA_NN1)
+        Tm_r = mt.Tm_NN(bds[BDS_len // 2 :], nn_table=mt.R_DNA_NN1)
+        Tm = mt.Tm_NN(bds, nn_table=mt.R_DNA_NN1)
+        if Tm_l > Tm_high or Tm_l < Tm_low or Tm_r > Tm_high or Tm_r < Tm_low: continue # Tm too high or too low
+        if abs(Tm_r - Tm_l) > Tm_dif_thre: continue # Tm difference too large
         # check 2nd structure
         _, mfe = RNA.fold(bds)
         if mfe < mfe_thre: continue
 
-        pos_candidate.append({
-            'pos': pos, 
-            'Tm': Tm, 'Tm_l': Tm_l, 'Tm_r': Tm_r, 'mfe': mfe,
-            })
+        pos_candidate.append({'pos': pos, 
+            'Tm': round(Tm,2), 'Tm_l': round(Tm_l,2), 'Tm_r': round(Tm_r,2), 'mfe': round(mfe,2)})
 
     pos_best = optimize_subsequence([_['pos'] for _ in pos_candidate], 
         BDS_num, min_gap=min_gap, better_gap=better_gap,
@@ -287,7 +286,7 @@ def position_search(sequence,
     for record in pos_candidate:
         if record['pos'] in pos_best:
             pos = record['pos']
-            record['seq'] = sequence[pos : pos + BDS_len]
+            record['bds'] = sequence[pos : pos + BDS_len]
             pos_info.append(record)
 
     return pos_info
