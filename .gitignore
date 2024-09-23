@@ -1,17 +1,21 @@
+# cache
 lib/__pycache__/*
-play/*
+
+# test
+test/*
+
+# dataset
 dataset/*
 !dataset/_example_dataset
 !dataset/_example_dataset/**
 
+# local files
 binding_searcher**
 !binding_searcher_ensembl.ipynb
 !binding_searcher_NCBI.ipynb
 !binding_searcher.ipynb
 
-bindin_batch_blast.ipynb
-
 probe_stitch**
 !probe_stitch.ipynb
-
 probe_specificity**
+binding_batch_blast.ipynb
